@@ -1,0 +1,10 @@
+version: "3.9"
+services:
+  redis:
+    image: "redis:alpine"
+    ports:
+      - "8000:5000"
+    networks:
+      - docker-compose-redis
+networks:
+  docker-compose-redis:

@@ -1,0 +1,12 @@
+version: "3.9"
+services:
+  liquibase:
+    image: "liquibase/liquibase:4.17"
+    ports:
+      - "58000:8000"
+    # volumes:
+    #   - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql    
+    networks:
+      - docker-compose-liquibase
+networks:
+  docker-compose-liquibase:
