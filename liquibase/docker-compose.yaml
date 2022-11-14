@@ -2,10 +2,27 @@ version: "3.9"
 services:
   liquibase:
     image: "liquibase/liquibase:4.17"
+    command: --url=jdbc:postgresql://postgres:5432/docker?user=docker&password=password --changeLogFile=base-changelog.xml update
+    volumes:
+      - ./changelog:/liquibase/changelog
+    networks:
+      - docker-compose-liquibase
+    depends_on:
+      postgres:
+        condition: service_started
+
+  postgres:
+    image: "postgres:15.1-alpine3.16"
     ports:
-      - "58000:8000"
+      - "55432:5432"
+    environment:
+      POSTGRES_USER: docker
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: docker
+      TZ: 'GMT-3'
+      PGTZ: 'GMT-3'
     # volumes:
-    #   - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql    
+    #   - ./sql/init.sql:/docker-entrypoint-initdb.d/init.sql
     networks:
       - docker-compose-liquibase
 networks:
